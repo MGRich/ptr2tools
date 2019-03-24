@@ -58,6 +58,7 @@ cmd_t commands[] = {
 
 bool makedir(const char *newdir) {
   struct stat st;
+  if (direxists(newdir)) return true;
   int err = stat(newdir, &st);
   if(err == -1) {
     if(mkdir(newdir, S_IRWXU) != 0) {
@@ -249,31 +250,31 @@ int pad_folderdata(byte *folderdata, int start, int end) {
 #define REQUIRE(x,c) if(argc < x) { commands[c].printhelp(""); return 1; }
 
 static int cmd_list(int argc, char *args[]) {
-  REQUIRE(1,0);
+  REQUIRE(1,0); //right command?
 
-  const char *intfilename = args[0];
+  const char *intfilename = args[0]; //get filename
 
-  FILE *f = fopen(intfilename, "rb");
-  if(NULL == f) {
+  FILE *f = fopen(intfilename, "rb"); //open it
+  if(NULL == f) { //cant?
     ERROR("Could not open INT file %s\n", intfilename);
     return 1;
   }
-  int len = getfilesize(f);
+  int len = getfilesize(f); 
   void *mint = malloc(len);
   fread(mint, 1, len, f);
   fclose(f);
 
-  assertheader(mint, "Not an INT file %s\n", intfilename);
+  assertheader(mint, "Not an INT file %s\n", intfilename); //not right header? gotta go . ,. ,
 
-  ptr2int::header_t *hdr = ptr2int::getheader(mint);
+  ptr2int::header_t *hdr = ptr2int::getheader(mint); //get the header data
 
-  while(hdr->resourcetype != INT_RESOURCE_END) {
-    ptr2int::filename_entry_t *entries = ptr2int::getfilenameentries(hdr);
-    char *characters = ptr2int::getfilenames(hdr);
-    for(u32 i = 0; i < hdr->filecount; i += 1){
-      printf("%s - %d bytes\n", characters + entries[i].offset, entries[i].sizeof_file);
+  while(hdr->resourcetype != INT_RESOURCE_END) { //check all sections
+    ptr2int::filename_entry_t *entries = ptr2int::getfilenameentries(hdr); //get the filenames
+    char *characters = ptr2int::getfilenames(hdr); //get some more
+    for(u32 i = 0; i < hdr->filecount; i += 1){ //for each file 
+      printf("%s - %d bytes\n", characters + entries[i].offset, entries[i].sizeof_file); //list name - size
     }
-    hdr = ptr2int::getnextheader(hdr);
+    hdr = ptr2int::getnextheader(hdr); //iterate to next header
   }
   free(mint);
   printf("Done.\n");
@@ -281,63 +282,63 @@ static int cmd_list(int argc, char *args[]) {
 }
 
 static int cmd_extract(int argc, char *args[]) {
-  REQUIRE(2,1);
-  const char *intfilename = args[0];
-  const char *outputfoldername = args[1];
-  FILE *f = fopen(intfilename, "rb");
-  int len = getfilesize(f);
-  void *mint = malloc(len);
-  fread(mint, 1, len, f);
+  REQUIRE(2,1); //make sure we're running the right command 
+  const char *intfilename = args[0]; //get filename
+  const char *outputfoldername = args[1]; //get output folder name
+  FILE *f = fopen(intfilename, "rb"); //open file
+  int len = getfilesize(f); //get size
+  void *mint = malloc(len); //allocate file in memory
+  fread(mint, 1, len, f); //put file in there
 
-  assertheader(mint, "Not an INT file %s\n", intfilename);
+  assertheader(mint, "Not an INT file %s\n", intfilename); //if not right header return
 
   INFO("INFLATE %s\n", intfilename);
   ptr2int::header_t *hdr = ptr2int::getheader(mint);
-  byte *history = (byte*)(malloc(4096));
+  byte *history = (byte*)(malloc(4096)); //allow 4096 bytes for history
 
   while(hdr->resourcetype != INT_RESOURCE_END) {
-    const char *restypename = ptr2int::typenames[hdr->resourcetype];
+    const char *restypename = ptr2int::typenames[hdr->resourcetype]; //get the type
     printf("INFLATE: Section %s\n", restypename);
-    ptr2int::lzss_header_t *lzss = ptr2int::getlzssheader(hdr);
-    byte *uncompressed = (byte*)(malloc(lzss->uncompressed_size));
-    byte *compressed = lzss->data;
-    memset(history,0,4096);
-    lzss_decompress(12,4,2,2,history,compressed,lzss->compressed_size,uncompressed,lzss->uncompressed_size);
-    ptr2int::filename_entry_t *entries = ptr2int::getfilenameentries(hdr);
-    u32 *fileoffsets = ptr2int::getfiledataoffsets(hdr);
-    char *fnchars = ptr2int::getfilenames(hdr);
-    char lbuf[256];
+    ptr2int::lzss_header_t *lzss = ptr2int::getlzssheader(hdr); //get lzzs header
+    byte *uncompressed = (byte*)(malloc(lzss->uncompressed_size)); //get the uncompressed size from header
+    byte *compressed = lzss->data; //get the data
+    memset(history,0,4096); //set history to 0s
+    lzss_decompress(12,4,2,2,history,compressed,lzss->compressed_size,uncompressed,lzss->uncompressed_size); //uncompress into uncompressed size
+    ptr2int::filename_entry_t *entries = ptr2int::getfilenameentries(hdr); //get names
+    u32 *fileoffsets = ptr2int::getfiledataoffsets(hdr); //get offsets
+    char *fnchars = ptr2int::getfilenames(hdr); //get chars
+    char lbuf[256]; //establish char buffer
 
-    const char *dirname = outputfoldername;
-    makedir(dirname);
+    const char *dirname = outputfoldername; //get output dir
+    makedir(dirname); //make if doesnt exist
 
-    printf("Extracting %d files (TYPE: %s)\n", hdr->filecount, restypename);
+    printf("Extracting %d files (TYPE: %s)\n", hdr->filecount, restypename); //extractin # files (type: resource type)
 
-    snprintf(lbuf, sizeof(lbuf), "%s/%s", dirname, restypename);
-    makedir(lbuf);
+    snprintf(lbuf, sizeof(lbuf), "%s/%s", dirname, restypename); //set lbuf to dirname/resource type
+    makedir(lbuf); //make lbuf if it doesnt exist
 
-    snprintf(lbuf, sizeof(lbuf), "%s/%s/_order.txt", dirname, restypename);
-    FILE *orderfile = fopen(lbuf, "w");
-    for(u32 i = 0; i < hdr->filecount; i += 1) {
-      ptr2int::filename_entry_t &entry = entries[i];
-      const char *filename = fnchars + entry.offset;
-      snprintf(lbuf, sizeof(lbuf), "%s/%s/%s", dirname, restypename, filename);
+    snprintf(lbuf, sizeof(lbuf), "%s/%s/_order.txt", dirname, restypename); //set lbuf to include _order
+    FILE *orderfile = fopen(lbuf, "w"); //open the orderfile in write mode
+    for(u32 i = 0; i < hdr->filecount; i += 1) { //iterate over every file
+      ptr2int::filename_entry_t &entry = entries[i]; //get pointer for entry
+      const char *filename = fnchars + entry.offset; //get filename from the offset
+      snprintf(lbuf, sizeof(lbuf), "%s/%s/%s", dirname, restypename, filename); //set buf to dir/resource/filename
 
-      printf("WRITE: %s (%d bytes)\n", filename, entry.sizeof_file);
-      FILE *outfile = fopen(lbuf, "wb");
-      if(NULL == outfile) {
+      printf("WRITE: %s (%d bytes)\n", filename, entry.sizeof_file); //write: filename (file size)
+      FILE *outfile = fopen(lbuf, "wb"); //open out file in writebyte
+      if(NULL == outfile) { //if it cant, move on
         INFO("Couldn't open %s...\n", lbuf);
         continue;
       }
-      fwrite(uncompressed + fileoffsets[i], 1, entry.sizeof_file, outfile);
-      fclose(outfile);
-      fprintf(orderfile, "%s\n", filename);
+      fwrite(uncompressed + fileoffsets[i], 1, entry.sizeof_file, outfile); //write the uncompressed + fileoffsets from memory into outfile
+      fclose(outfile); //close outfile
+      fprintf(orderfile, "%s\n", filename); //in order, print filename
     }
-    fclose(orderfile);
-    hdr = ptr2int::getnextheader(hdr);
-    free(uncompressed);
+    fclose(orderfile); //close order
+    hdr = ptr2int::getnextheader(hdr); //move to next section
+    free(uncompressed); //free uncompressed data
   }
-  free(history);
+  free(history); //free history
   printf("Done.\n");
   return 0;
 }
