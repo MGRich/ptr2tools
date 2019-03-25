@@ -36,25 +36,25 @@ int getpolygoncount(const void *spm, int len) {
 }
 
 bool getpolygonbyindex(const void *spm, int len, int index, polygonheader_t **out_polygon) {
-    if(false == checkheader(spm)) return false;
-    const byte *bytes = (const byte*)(spm);
+    if(!checkheader(spm)) return false; //if not an spm file, go away
+    const byte *bytes = (const byte*)(spm); //get the spm bytes
     int parsed = 8;
     int acc = 0;
 
     while((parsed + 8) <= len) {
-        u64 v = *(u64*)(bytes + parsed);
-        if(v == POLYGON_KEY) {
-            if(acc == index) {
-                *out_polygon = (polygonheader_t*)((bytes + parsed) - 0x68);
-                return true;
+        u64 v = *(u64*)(bytes + parsed); //get bytes + parsed
+        if(v == POLYGON_KEY) { //if its 0xEEEEEEEEEEEEEEEE
+            if(acc == index) { //if index matches the current iteration
+                *out_polygon = (polygonheader_t*)((bytes + parsed) - 0x68); //get header from bytes + parsed and subtract from 0x68
+                return true; //we found it amigos
             }
-            acc += 1;
+            acc += 1;	
             if(acc > index) { break; }
         }
-        parsed += 0x10;
+        parsed += 0x10; //increase parsed by 0x10
     }
-    *out_polygon = nullptr;
-    return false;
+    *out_polygon = nullptr; //couldnt find it
+    return false; //nope
 }
 
 u64 tex0frompolygon(polygonheader_t *polygon) {

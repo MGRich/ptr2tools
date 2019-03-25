@@ -56,6 +56,19 @@ cmd_t commands[] = {
   return 1; \
 }
 
+bool direxists(const char *dirname) {
+	struct stat st;
+	if (stat(dirname, &st) != 0) {
+		return false;
+	}
+	if (S_ISDIR(st.st_mode)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool makedir(const char *newdir) {
   struct stat st;
   if (direxists(newdir)) return true;
@@ -156,18 +169,6 @@ void build_int_section(int restype, std::vector<intfile_t> &intfiles, const byte
   memcpy(lzss_sec->data, lzss, lzss_size); //copy lzss data to header data
 
   return;
-}
-
-bool direxists(const char *dirname) {
-  struct stat st;
-  if(stat(dirname, &st) != 0) {
-    return false;
-  }
-  if(S_ISDIR(st.st_mode)) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 bool isfile(const char *fn) {
