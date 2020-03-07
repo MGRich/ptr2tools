@@ -27,7 +27,7 @@ extern "C" {
         while (data->resourceType != RESOURCE_END) {
             printf("Begin reading %s (%d files)...\n", typenames[data->resourceType], data->fileCount);
 
-            LZSSHeader* lzss = (LZSSHeader*)((byte*)data + ((long)data->fnTableOffset + (long)data->fnTableSize)); //janky but gets the data we want
+            LZSSHeader* lzss = (LZSSHeader*)((byte*)data + ((long long)data->fnTableOffset + data->fnTableSize)); //janky but gets the data we want
             byte* uncompressedData = (byte*)(malloc(lzss->uncompressedSize));
             lzss_decompress(12, 4, 2, 2, buffer, lzss->data, lzss->compressedSize, uncompressedData, lzss->uncompressedSize);
 
