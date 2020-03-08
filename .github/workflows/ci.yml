@@ -7,10 +7,12 @@ jobs:
      name: Build
      runs-on: [windows-latest]
      steps:
-      - uses: actions/checkout@v1
         
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v1
+      
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
 
       - name: Build x64
         run: |
