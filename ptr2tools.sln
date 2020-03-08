@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
@@ -6,6 +5,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ptr2app", "ptr2app\ptr2app.vcxproj", "{8E61E070-E1B8-42DC-9C18-43F92318CDEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ptr2lib", "ptr2lib\ptr2lib.vcxproj", "{A4BA4521-B29A-474B-8813-B6504593AF5F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "isomod", "isomod\isomod.vcxproj", "{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +32,14 @@ Global
 		{A4BA4521-B29A-474B-8813-B6504593AF5F}.Release|x64.Build.0 = Release|x64
 		{A4BA4521-B29A-474B-8813-B6504593AF5F}.Release|x86.ActiveCfg = Release|Win32
 		{A4BA4521-B29A-474B-8813-B6504593AF5F}.Release|x86.Build.0 = Release|Win32
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Debug|x64.ActiveCfg = Debug|x64
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Debug|x64.Build.0 = Debug|x64
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Debug|x86.ActiveCfg = Debug|Win32
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Debug|x86.Build.0 = Debug|Win32
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Release|x64.ActiveCfg = Release|x64
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Release|x64.Build.0 = Release|x64
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Release|x86.ActiveCfg = Release|Win32
+		{0491DC2C-9D99-4AFA-A8BC-760C7F55543D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
