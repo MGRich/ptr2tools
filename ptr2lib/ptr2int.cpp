@@ -14,17 +14,14 @@ extern "C" {
             return 1; //this isnt an int file dumbass
         }
         printf("yes.\n");
-        int len = reader.filesize;
         reader.close();
 
         printf("Storing INT file into memory...\n");
-        FILE* f = fopen(filepath, "rb"); //open file
-        void* file = malloc(len); //allocate file in memory
+        void* file = PTR2Reader::openInMemory(filepath);
         if (!file) {
             printf("Error allocating! This should NEVER happen. If it does, contact me.");
             return 2;
         }
-        fread(file, 1, len, f); //put file in there
 
         HeaderData* data = (HeaderData*)file;
         byte buffer[4096];
@@ -84,17 +81,14 @@ extern "C" {
             return 1; //this isnt an int file dumbass
         }
         printf("yes.\n");
-        int len = reader.filesize;
         reader.close();
 
         printf("Storing INT file into memory...\n");
-        FILE* f = fopen(filepath, "rb"); //open file
-        void* file = malloc(len); //allocate file in memory
+        void* file = PTR2Reader::openInMemory(filepath);
         if (!file) {
             printf("Error allocating! This should NEVER happen. If it does, contact me.");
             return 2;
         }
-        fread(file, 1, len, f); //put file in there
 
         HeaderData* data = (HeaderData*)file;
         while (data->resourceType != RESOURCE_END) {
