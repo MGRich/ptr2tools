@@ -16,13 +16,13 @@ jobs:
 
       - name: Build x64
         run: |
-          cd ${GITHUB_WORKSPACE}
+          cd D:\a\ptr2tools\ptr2tools
           dir
           msbuild /p:Configuration=Release /p:Platform=x64
           
       - name: Build Win32
         run: |
-          cd ${GITHUB_WORKSPACE}
+          cd D:\a\ptr2tools\ptr2tools
           msbuild /p:Configuration=Release /p:Platform=x86
       
       
