@@ -11,8 +11,6 @@
 
 #define ALIGN(x, y) (((x) + (y-1)) & (~((y)-1)))
 
-typedef unsigned int uint;
-
 struct TableOffsets {
     uint hdr;
     uint offsets;

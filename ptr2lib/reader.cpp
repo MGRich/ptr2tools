@@ -1,4 +1,4 @@
-#include "reader.h"
+#include "common.h"
 
 PTR2Reader::PTR2Reader(char* filepath)
 {

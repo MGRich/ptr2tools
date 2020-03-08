@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "reader.h"
+#include "common.h"
 #include "ptr2int.h"
 #include "dependencies/lzss.c"
 
 extern "C" {
-    __declspec(dllexport) int intextract(char* filepath, char* outfolder) {
+    EXPORT int intextract(char* filepath, char* outfolder) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
         if (!reader.stream.is_open() || !reader.headerCheck(0x44332211)) {
@@ -76,7 +76,7 @@ extern "C" {
         return 0;
     }
 
-    __declspec(dllexport) int intlist(char* filepath) {
+    EXPORT int intlist(char* filepath) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
         if (!reader.stream.is_open() || !reader.headerCheck(0x44332211)) {
@@ -180,7 +180,7 @@ extern "C" {
         return;
     }
 
-    __declspec(dllexport) int intcreate(char* intpath, char* infolder) {
+    EXPORT int intcreate(char* intpath, char* infolder) {
         printf("Checking for directory... ");
         if (!direxists(infolder)) {
             printf("failed. Please make sure your directory exists.\n");
