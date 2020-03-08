@@ -1,0 +1,29 @@
+name: CI
+
+# Trigger this workflow on push or pull request
+on: [push, pull_request]
+jobs:
+  build:
+     name: Build
+     runs-on: [windows-latest]
+     steps:
+        
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+      
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+
+      - name: Build x64
+        run: |
+          cd D:\a\ptr2tools\ptr2tools
+          dir
+          msbuild /p:Configuration=Release /p:Platform=x64
+          
+      - name: Build Win32
+        run: |
+          cd D:\a\ptr2tools\ptr2tools
+          msbuild /p:Configuration=Release /p:Platform=x86
+      
+      
+          
