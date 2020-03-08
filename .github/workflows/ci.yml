@@ -14,13 +14,13 @@ jobs:
 
       - name: Build x64
         run: |
-          cd $GITHUB_WORKSPACE
+          cd ${GITHUB_WORKSPACE}
           dir
           msbuild /p:Configuration=Release /p:Platform=x64
           
       - name: Build Win32
         run: |
-          cd $GITHUB_WORKSPACE
+          cd ${GITHUB_WORKSPACE}
           msbuild /p:Configuration=Release /p:Platform=x86
       
       
