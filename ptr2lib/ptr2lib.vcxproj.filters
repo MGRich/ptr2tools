@@ -16,6 +16,9 @@
     <Filter Include="Dependencies">
       <UniqueIdentifier>{d6a7681f-bd97-4396-93c5-476000179150}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File Formats">
+      <UniqueIdentifier>{27a54497-2087-4028-91a2-c1baff4ee911}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ptr2int.cpp">
@@ -27,11 +30,14 @@
     <ClCompile Include="dependencies\lzss.c">
       <Filter>Dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="ptr2spm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spmfile.cpp">
+      <Filter>File Formats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="reader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ptr2int.h">
       <Filter>Header Files</Filter>
     </ClInclude>

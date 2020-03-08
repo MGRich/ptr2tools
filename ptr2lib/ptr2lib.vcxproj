@@ -145,13 +145,17 @@
   <ItemGroup>
     <ClCompile Include="dependencies\lzss.c" />
     <ClCompile Include="ptr2int.cpp" />
+    <ClCompile Include="ptr2spm.cpp" />
     <ClCompile Include="reader.cpp" />
+    <ClCompile Include="spmfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\dirent.h" />
     <ClInclude Include="dependencies\lzss.h" />
     <ClInclude Include="ptr2int.h" />
-    <ClInclude Include="reader.h" />
+    <ClInclude Include="ptr2spm.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="spmfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
