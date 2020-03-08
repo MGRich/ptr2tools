@@ -28,6 +28,8 @@ jobs:
         run: |
           cd D:\a\ptr2tools\ptr2tools
           mkdir artif
+          dir
+          dir Win32\Release
           move x64\Release\ptr2lib.dll artif\ptr2lib.x64.dll
           move x64\Release\ptr2lib.lib artif\ptr2lib.x64.lib
           move Win32\Release\ptr2lib.dll artif\ptr2lib.x86.dll
