@@ -17,13 +17,31 @@ jobs:
       - name: Build x64
         run: |
           cd D:\a\ptr2tools\ptr2tools
-          dir
           msbuild /p:Configuration=Release /p:Platform=x64
           
       - name: Build Win32
         run: |
           cd D:\a\ptr2tools\ptr2tools
           msbuild /p:Configuration=Release /p:Platform=x86
+          
+      - name: Move artifacts
+        run: |
+          cd D:\a\ptr2tools\ptr2tools
+          mkdir artif
+          move x64\Release\ptr2lib.dll artif\ptr2lib.x64.dll
+          move x64\Release\ptr2lib.lib artif\ptr2lib.x64.lib
+          move Win32\Release\ptr2lib.dll artif\ptr2lib.x86.dll
+          move Win32\Release\ptr2lib.dll artif\ptr2lib.x86.lib
+          move x64\Release\ptr2app.exe artif\inttest.x64.exe
+          move Win32\Release\ptr2app.exe artif\inttest.x86.exe        
+          
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: ptr2lib-windows
+          path: artif 
+
       
       
           
