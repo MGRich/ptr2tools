@@ -47,5 +47,14 @@
     <ClInclude Include="dependencies\dirent.h">
       <Filter>Dependencies</Filter>
     </ClInclude>
+    <ClInclude Include="ptr2spm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="spmfile.h">
+      <Filter>File Formats</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
