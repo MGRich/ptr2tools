@@ -14,6 +14,8 @@ class PTR2Reader
     byte* readByteArray(int count);
     bool headerCheck(int header);
     void close();
+
+    static int fetchFilesize(char* filepath);
     int filesize;
     ifstream stream;
 };

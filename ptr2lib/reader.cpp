@@ -34,3 +34,12 @@ void PTR2Reader::close() {
     return stream.close();
     delete this;
 }
+
+int PTR2Reader::fetchFilesize(char* filepath)
+{
+    PTR2Reader t(filepath);
+    if (!t.stream.is_open()) return -1;
+    int res = t.filesize;
+    t.close();
+    return res;
+}

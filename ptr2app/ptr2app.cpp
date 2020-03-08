@@ -7,10 +7,22 @@
 int main(int argc, char* argv[])
 {
     typedef int (*ext)(char*, char*);
+    typedef int (*lst)(char*);
     auto ptr2int = LoadLibraryA("ptr2lib.dll");
-    auto extract = (ext)GetProcAddress(ptr2int, "extract");
+    auto extract = (ext)GetProcAddress(ptr2int, "intextract");
+    auto list = (lst)GetProcAddress(ptr2int, "intlist");
+    auto comp = (ext)GetProcAddress(ptr2int, "intcreate");
+    list(argv[1]);
     extract(argv[1], argv[2]);
-}
+    comp(argv[1], argv[2]);
+}//*/
+
+/*int main() {
+    char res;
+    scanf("%c", &res);
+    printf("%c\n", res);
+    system("pause");
+}//*/
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
