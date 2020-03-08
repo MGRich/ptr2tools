@@ -4,6 +4,8 @@
 #include <iostream>
 #include <Windows.h>
 
+#define ALIGN(x, y) (((x) + (y-1)) & (~((y)-1)))
+
 int main(int argc, char* argv[])
 {
     typedef int (*ext)(char*, char*);
@@ -18,9 +20,11 @@ int main(int argc, char* argv[])
 }//*/
 
 /*int main() {
-    char res;
-    scanf("%c", &res);
-    printf("%c\n", res);
+    for (int y = 0; y < 100; y++) {
+        for (int x = 0; x < 100; x++) {
+            printf("%d %d %d\n", x, y, ALIGN(x, y));
+        }
+    }
     system("pause");
 }//*/
 

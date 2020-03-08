@@ -124,20 +124,21 @@ extern "C" {
         return r;
     }
 
-    int pad_folderdata(byte* folderdata, int start, int end) {
+    int padFolderData(byte* folderdata, int start, int end) {
         int remain = end - start;
         while (remain > 0) {
             //TODO: Repeating last few bytes of file might help compression
             //      instead of zero-filling. The official INT packer 
             //      zero-fills.
             //good for you posesix cause i am doing that fuck you!
+            //once i figure it out
 
             folderdata[end - remain] = 0; remain--;
         }
         return (end - start);
     }
 
-    void build_int_section(int restype, OffsetTable r, std::vector<INTFile>& intfiles, const byte* lzss, int lzss_size, byte* out) {
+    void buildSection(int restype, OffsetTable r, std::vector<INTFile>& intfiles, const byte* lzss, int lzss_size, byte* out) {
         HeaderData* hdr = (HeaderData*)(out + r.header); //establish a header
         uint* offsets = (uint*)(out + r.offsets); //pointer of u32s for offsets
         FilenameEntry* fentries = (FilenameEntry*)(out + r.filenameTable); //pointer of filenames entries
@@ -254,7 +255,7 @@ extern "C" {
                 folderlen = ALIGN(folderlen + len, 0x10);
                 folderdata = (byte*)(realloc(folderdata, folderlen));
                 fread(folderdata + fdp, 1, len, f);
-                pad_folderdata(folderdata, fdp + len, folderlen);
+                padFolderData(folderdata, fdp + len, folderlen);
                 fclose(f);
                 intfiles.push_back(INTFile(std::string(filename), len, fdp));
             }
@@ -279,7 +280,7 @@ extern "C" {
             printf(" %d bytes...\n", seclen);
 
             byte* secdata = (byte*)(malloc(seclen)); //allocate that amount
-            build_int_section(i, offsets, intfiles, lzssData, complen, secdata); //build it
+            buildSection(i, offsets, intfiles, lzssData, complen, secdata); //build it
 
             printf("Writing...\n");
             fwrite(secdata, 1, seclen, out); //write the sectiondata to the file
