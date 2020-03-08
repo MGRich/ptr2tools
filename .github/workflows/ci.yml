@@ -15,13 +15,13 @@ jobs:
       - name: Build x64
         run: |
           cd $env:SRC_DIR_PATH
-          echo %CD%
-          msbuild /p:Configuration=Release;Platform=x64
+          dir
+          msbuild /p:Configuration=Release /p:Platform=x64
           
       - name: Build Win32
         run: |
           cd $env:SRC_DIR_PATH
-          msbuild /p:Configuration=Release;Platform=x86
+          msbuild /p:Configuration=Release /p:Platform=x86
       
       
           
