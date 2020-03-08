@@ -14,8 +14,7 @@ jobs:
 
       - name: Build x64
         run: |
-          cd $env:SRC_DIR_PATH
-          echo $env:SRC_DIR_PATH
+          cd
           dir
           msbuild /p:Configuration=Release /p:Platform=x64
           
