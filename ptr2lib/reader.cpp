@@ -43,3 +43,17 @@ int PTR2Reader::fetchFilesize(char* filepath)
     t.close();
     return res;
 }
+
+void* PTR2Reader::openInMemory(char* filepath, int& len) {
+    len = fetchFilesize(filepath);
+    if (len == -1) return NULL;
+    return openInMemory(filepath);
+}
+void* PTR2Reader::openInMemory(char* filepath) {
+    int len = fetchFilesize(filepath);
+    FILE* f = fopen(filepath, "rb");
+    if (!f) return NULL;
+    void* buf = malloc(len);
+    fread(buf, 1, len, f);
+    return buf;
+}

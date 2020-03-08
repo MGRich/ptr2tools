@@ -30,6 +30,8 @@ class PTR2Reader
     bool headerCheck(int header);
     void close();
 
+    static void* openInMemory(char* filepath);
+    static void* openInMemory(char* filepath, int& len);
     static int fetchFilesize(char* filepath);
     int filesize;
     ifstream stream;
