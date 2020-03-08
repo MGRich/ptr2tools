@@ -1,0 +1,4 @@
+name: CI
+
+# Trigger this workflow on push or pull request
+on: [push, pull_request]
