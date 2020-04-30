@@ -1,6 +1,7 @@
 #include "ptr2spm.h"
 #include "common.h"
 #include "spmfile.h"
+#include <sstream>
 #ifdef _WIN32
 #define PRIx64 "llx"
 #define PRIx8 "hhx"
@@ -9,13 +10,13 @@ typedef uint64_t int64;
 
 extern "C" {
 
-    EXPORT int spmanalyze(char* filepath) {
+    int spmanalyze(char* filepath) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
         if (!reader.stream.is_open() 
         || !reader.headerCheck(0x18DF540A)) {
             printf("no! Please pass a valid SPM file.\n");
-            return 1; //this isnt an int file dumbass
+            return 1;
         }
         printf("yes.\n");
         reader.close();
@@ -37,29 +38,31 @@ extern "C" {
             }
         }
     }
-    __declspec(dllexport) int spmgettex0(char* filepath, char* outfile) {
+    int spmgettex0(char* filepath, char* outfile) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
-        if (!reader.stream.is_open() || !reader.headerCheck(0x18DF540A)) {
+        if (!reader.stream.is_open()
+            || !reader.headerCheck(0x18DF540A)) {
             printf("no! Please pass a valid SPM file.\n");
-            return 1; //this isnt an int file dumbass
+            return 1;
         }
         printf("yes.\n");
         reader.close();
 
-        printf("Storing SPM file into memory...\n");
         int len;
-        void* file = PTR2Reader::openInMemory(filepath, len);
-        if (!file) {
-            printf("Error allocating! This should NEVER happen. If it does, contact me.");
-            return 2;
-        }
-        int polcount = 0;
-        for (int i = 8; (i + 8) <= len; i += 0x10) {
-            int64 v = *(int64*)((byte*)file + i);
-            if (v == 0xEEEEEEEEEEEEEEEE) {
+        void* tmp = PTR2Reader::openInMemory(filepath, len);
 
-            }
+        SPMFile* file = new SPMFile(tmp, len);
+
+        ofstream outstream;
+        outstream.open(outfile);
+
+        for (int i = 0; i < file->polygons.size(); i++) {
+             stringstream str;
+             str << uppercase << hex << file->polygons[i]->tex0 << ' ';
+             str << to_string(file->polygons[i]->format) << '\n';
+             outstream << str.str();
+             printf("- " PRIx64 "(format %d)\n", file->polygons[i]->tex0, file->polygons[i]->format);
         }
     }
 }

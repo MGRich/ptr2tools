@@ -1,20 +1,7 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-typedef unsigned char byte;
-typedef unsigned int uint;
-
-typedef uint8_t  u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-
-using namespace std;
-
-// Define EXPORT for any platform
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef WIN_EXPORT
-  // Exporting...
+#ifdef PTR2EXPORT
+// Exporting...
 #ifdef __GNUC__
 #define EXPORT extern "C" __attribute__ ((dllexport))
 #else
@@ -37,21 +24,9 @@ using namespace std;
 #define NOEXPORT
 #endif
 #endif
-class PTR2Reader
-{
-    public:
-    PTR2Reader(char* filepath);
-    
-    int readInt();
-    byte readByte();
-    byte* readByteArray(int count);
-    bool headerCheck(int header);
-    void close();
 
-    static void* openInMemory(char* filepath);
-    static void* openInMemory(char* filepath, int& len);
-    static int fetchFilesize(char* filepath);
-    int filesize;
-    ifstream stream;
-};
-    
+///PTR2INT///
+EXPORT int intextract(char* intfile, char* outfolder);
+EXPORT int intlist(char* intfile);
+EXPORT int intcreate(char* intfile, char* infolder);
+

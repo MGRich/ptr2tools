@@ -36,6 +36,12 @@
     <ClCompile Include="spmfile.cpp">
       <Filter>File Formats</Filter>
     </ClCompile>
+    <ClCompile Include="isomod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="iso9660.cpp">
+      <Filter>File Formats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ptr2int.h">
@@ -55,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="spmfile.h">
       <Filter>File Formats</Filter>
+    </ClInclude>
+    <ClInclude Include="iso9660.h">
+      <Filter>File Formats</Filter>
+    </ClInclude>
+    <ClInclude Include="ptr2lib.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

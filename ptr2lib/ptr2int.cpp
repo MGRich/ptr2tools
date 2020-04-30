@@ -3,10 +3,10 @@
 #include <vector>
 #include "common.h"
 #include "ptr2int.h"
+#include "ptr2lib.h"
 #include "dependencies/lzss.c"
 
-extern "C" {
-    EXPORT int intextract(char* filepath, char* outfolder) {
+    int intextract(char* filepath, char* outfolder) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
         if (!reader.stream.is_open() || !reader.headerCheck(0x44332211)) {
@@ -73,7 +73,7 @@ extern "C" {
         return 0;
     }
 
-    EXPORT int intlist(char* filepath) {
+    int intlist(char* filepath) {
         PTR2Reader reader(filepath);
         printf("Checking if file exists and is valid... ");
         if (!reader.stream.is_open() || !reader.headerCheck(0x44332211)) {
@@ -174,7 +174,7 @@ extern "C" {
         return;
     }
 
-    EXPORT int intcreate(char* intpath, char* infolder) {
+    int intcreate(char* intpath, char* infolder) {
         printf("Checking for directory... ");
         if (!direxists(infolder)) {
             printf("failed. Please make sure your directory exists.\n");
@@ -293,5 +293,3 @@ extern "C" {
         return 0;
 
     }
-
-}

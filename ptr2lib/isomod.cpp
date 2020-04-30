@@ -9,18 +9,14 @@
 typedef uint32_t loc_t;
 typedef uint8_t byte;
 unsigned int sectorSize = 0x800;
-#define ISO_PADSIZE 0x10
 
 #ifdef _WIN32
-#include <Windows.h>
 #define fseeko64 _fseeki64
 #define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
 #elif defined(__GNUC__)
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 #endif
 
-#ifdef _MSC_VER
-#endif
 #define ALIGN(x,y) (((x) + ((y)-1)) & (~((y)-1)))
 
 int getfilesize(FILE* f) {
@@ -186,7 +182,7 @@ int main(int argc, char* args[]) {
         }
         byte* sec = (byte*)(malloc(sectorSize));
         iso_directory_t* dir = (iso_directory_t*)(sec);
-        CdSetloc(isofile, ISO_PADSIZE);
+        CdSetloc(isofile, 16);
         CdRead(sec, 1, isofile);
         if (ispvd(sec) == false) {
             fprintf(stderr, "%s is not an ISO file\n", isofilename);

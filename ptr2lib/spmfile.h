@@ -26,7 +26,7 @@ struct Polygon {
     Vertex verticies[0];
 };
 
-class EXPORT SPMFile
+EXPORT class SPMFile
 {
 public:
     SPMFile(char* filepath);
